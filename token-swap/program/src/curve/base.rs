@@ -37,7 +37,7 @@ pub enum CurveType {
 }
 
 /// Encodes all results of swapping from a source token to a destination token
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct SwapResult {
     /// New amount of source token
     pub new_swap_source_amount: u128,
@@ -55,7 +55,7 @@ pub struct SwapResult {
 
 /// Concrete struct to wrap around the trait object which performs calculation.
 #[repr(C)]
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct SwapCurve {
     /// The type of curve contained in the calculator, helpful for outside
     /// queries
@@ -172,6 +172,17 @@ impl Default for SwapCurve {
             curve_type,
             calculator: Arc::new(calculator),
         }
+    }
+}
+
+/// Clone takes advantage of pack / unpack to get around the difficulty of
+/// cloning dynamic objects.
+/// SIKE THIS AINT USED FOR TESTING
+impl Clone for SwapCurve {
+    fn clone(&self) -> Self {
+        let mut packed_self = [0u8; Self::LEN];
+        Self::pack_into_slice(self, &mut packed_self);
+        Self::unpack_from_slice(&packed_self).unwrap()
     }
 }
 
