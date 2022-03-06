@@ -88,7 +88,7 @@ impl SwapVersion {
 
 /// Program states.
 #[repr(C)]
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Clone)]
 pub struct SwapV1 {
     /// Initialized state.
     pub is_initialized: bool,
