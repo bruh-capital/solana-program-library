@@ -37,7 +37,7 @@ pub enum CurveType {
 }
 
 /// Encodes all results of swapping from a source token to a destination token
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct SwapResult {
     /// New amount of source token
     pub new_swap_source_amount: u128,
@@ -55,7 +55,7 @@ pub struct SwapResult {
 
 /// Concrete struct to wrap around the trait object which performs calculation.
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SwapCurve {
     /// The type of curve contained in the calculator, helpful for outside
     /// queries
